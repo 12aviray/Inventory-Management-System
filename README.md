@@ -31,8 +31,8 @@ Design Patterns will be selected and implemented based on actual design requirem
 
 ## Team Members
 
-* **[Your Name]**
-* **[Partner Name]**
+* **[Avishek Ray-1623]**
+* **[A.M Toufiq Alam-1643]**
 
 ## Project Status
 
