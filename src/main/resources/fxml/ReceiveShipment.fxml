@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.inventory.ui.controller.ReceiveShipmentController">
+    <padding>
+        <Insets top="12" right="12" bottom="12" left="12"/>
+    </padding>
+
+    <top>
+        <VBox spacing="10">
+            <Label text="Receive Shipment" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <HBox spacing="10">
+                <Label text="Purchase Order:"/>
+                <ComboBox fx:id="poCombo" prefWidth="260"/>
+                <Label text="Receiving Warehouse:"/>
+                <ComboBox fx:id="warehouseCombo" prefWidth="180"/>
+                <Button text="Load" onAction="#handleLoad"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="linesTable">
+            <columns>
+                <TableColumn fx:id="productColumn" text="Product" prefWidth="200"/>
+                <TableColumn fx:id="orderedColumn" text="Ordered" prefWidth="90"/>
+                <TableColumn fx:id="receivedColumn" text="Already Received" prefWidth="130"/>
+                <TableColumn fx:id="outstandingColumn" text="Outstanding" prefWidth="100"/>
+                <TableColumn fx:id="receiveNowColumn" text="Receive Now" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <VBox spacing="8">
+            <padding>
+                <Insets top="10"/>
+            </padding>
+            <Button text="Confirm Receipt" onAction="#handleConfirm"/>
+            <Label fx:id="statusLabel" textFill="crimson"/>
+        </VBox>
+    </bottom>
+</BorderPane>

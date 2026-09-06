@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.inventory.ui.controller.ProductListController">
+    <padding>
+        <Insets top="12" right="12" bottom="12" left="12"/>
+    </padding>
+
+    <top>
+        <Label text="Products" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    </top>
+
+    <center>
+        <TableView fx:id="productTable">
+            <columns>
+                <TableColumn fx:id="skuColumn" text="SKU" prefWidth="100"/>
+                <TableColumn fx:id="nameColumn" text="Name" prefWidth="200"/>
+                <TableColumn fx:id="categoryColumn" text="Category" prefWidth="120"/>
+                <TableColumn fx:id="costColumn" text="Unit Cost" prefWidth="100"/>
+                <TableColumn fx:id="thresholdColumn" text="Reorder Threshold" prefWidth="140"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <VBox spacing="8">
+            <padding>
+                <Insets top="10"/>
+            </padding>
+            <HBox spacing="8">
+                <TextField fx:id="skuField" promptText="SKU"/>
+                <TextField fx:id="nameField" promptText="Name"/>
+                <TextField fx:id="categoryField" promptText="Category"/>
+                <TextField fx:id="costField" promptText="Unit Cost"/>
+                <TextField fx:id="thresholdField" promptText="Reorder Threshold"/>
+            </HBox>
+            <HBox spacing="8">
+                <Button text="Add" onAction="#handleAdd"/>
+                <Button text="Update Selected" onAction="#handleUpdate"/>
+                <Button text="Delete Selected" onAction="#handleDelete"/>
+                <Label fx:id="statusLabel" textFill="crimson"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>

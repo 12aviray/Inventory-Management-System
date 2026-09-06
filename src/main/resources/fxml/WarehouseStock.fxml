@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.inventory.ui.controller.WarehouseStockController">
+    <padding>
+        <Insets top="12" right="12" bottom="12" left="12"/>
+    </padding>
+
+    <top>
+        <Label text="Warehouse Stock" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    </top>
+
+    <center>
+        <TableView fx:id="stockTable">
+            <columns>
+                <TableColumn fx:id="warehouseColumn" text="Warehouse" prefWidth="150"/>
+                <TableColumn fx:id="productColumn" text="Product" prefWidth="220"/>
+                <TableColumn fx:id="quantityColumn" text="Quantity" prefWidth="100"/>
+                <TableColumn fx:id="thresholdColumn" text="Reorder Threshold" prefWidth="140"/>
+                <TableColumn fx:id="statusColumn" text="Status" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="8">
+            <padding>
+                <Insets top="10"/>
+            </padding>
+            <Button text="Refresh" onAction="#handleRefresh"/>
+        </HBox>
+    </bottom>
+</BorderPane>

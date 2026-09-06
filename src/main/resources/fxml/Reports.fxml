@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.inventory.ui.controller.ReportsController">
+    <padding>
+        <Insets top="12" right="12" bottom="12" left="12"/>
+    </padding>
+
+    <top>
+        <VBox spacing="10">
+            <Label text="Reports" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <TabPane fx:id="reportTabs" tabClosingPolicy="UNAVAILABLE">
+                <Tab text="Low Stock">
+                    <VBox spacing="8">
+                        <Button text="Run Low Stock Report" onAction="#handleLowStockReport"/>
+                        <TableView fx:id="lowStockTable">
+                            <columns>
+                                <TableColumn fx:id="lsProductColumn" text="Product" prefWidth="200"/>
+                                <TableColumn fx:id="lsWarehouseColumn" text="Warehouse" prefWidth="150"/>
+                                <TableColumn fx:id="lsQuantityColumn" text="Quantity" prefWidth="100"/>
+                                <TableColumn fx:id="lsThresholdColumn" text="Threshold" prefWidth="100"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </Tab>
+                <Tab text="Movement History">
+                    <VBox spacing="8">
+                        <Button text="Run Movement History Report" onAction="#handleMovementReport"/>
+                        <TableView fx:id="movementTable">
+                            <columns>
+                                <TableColumn fx:id="mvDateColumn" text="Date" prefWidth="150"/>
+                                <TableColumn fx:id="mvProductColumn" text="Product" prefWidth="180"/>
+                                <TableColumn fx:id="mvWarehouseColumn" text="Warehouse" prefWidth="130"/>
+                                <TableColumn fx:id="mvTypeColumn" text="Type" prefWidth="110"/>
+                                <TableColumn fx:id="mvQuantityColumn" text="Quantity" prefWidth="90"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </Tab>
+            </TabPane>
+        </VBox>
+    </top>
+</BorderPane>

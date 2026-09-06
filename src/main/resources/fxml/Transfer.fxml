@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10"
+      fx:controller="com.inventory.ui.controller.TransferController">
+    <padding>
+        <Insets top="12" right="12" bottom="12" left="12"/>
+    </padding>
+
+    <Label text="Stock Transfer" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10">
+        <Label text="Product:"/>
+        <ComboBox fx:id="productCombo" prefWidth="220"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="From Warehouse:"/>
+        <ComboBox fx:id="fromWarehouseCombo" prefWidth="180"/>
+        <Label text="To Warehouse:"/>
+        <ComboBox fx:id="toWarehouseCombo" prefWidth="180"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Quantity:"/>
+        <TextField fx:id="quantityField" prefWidth="100"/>
+        <Button text="Transfer" onAction="#handleTransfer"/>
+    </HBox>
+
+    <Label fx:id="statusLabel" textFill="crimson"/>
+</VBox>

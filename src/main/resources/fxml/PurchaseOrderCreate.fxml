@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.inventory.ui.controller.PurchaseOrderCreateController">
+    <padding>
+        <Insets top="12" right="12" bottom="12" left="12"/>
+    </padding>
+
+    <top>
+        <VBox spacing="10">
+            <Label text="Create Purchase Order" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <HBox spacing="10">
+                <Label text="Supplier:"/>
+                <ComboBox fx:id="supplierCombo" prefWidth="220"/>
+                <Label text="Notes:"/>
+                <TextField fx:id="notesField" prefWidth="220"/>
+            </HBox>
+            <HBox spacing="10">
+                <Label text="Product:"/>
+                <ComboBox fx:id="productCombo" prefWidth="200"/>
+                <Label text="Qty:"/>
+                <TextField fx:id="lineQuantityField" prefWidth="80"/>
+                <Label text="Unit Cost:"/>
+                <TextField fx:id="lineCostField" prefWidth="80"/>
+                <Button text="Add Line" onAction="#handleAddLine"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="linesTable">
+            <columns>
+                <TableColumn fx:id="lineProductColumn" text="Product" prefWidth="220"/>
+                <TableColumn fx:id="lineQuantityColumn" text="Quantity Ordered" prefWidth="140"/>
+                <TableColumn fx:id="lineCostColumn" text="Unit Cost" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <VBox spacing="8">
+            <padding>
+                <Insets top="10"/>
+            </padding>
+            <Button text="Submit Purchase Order" onAction="#handleSubmit"/>
+            <Label fx:id="statusLabel" textFill="crimson"/>
+        </VBox>
+    </bottom>
+</BorderPane>
