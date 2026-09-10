@@ -6,49 +6,173 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.inventory.ui.controller.PurchaseOrderCreateController">
+            fx:controller="com.inventory.ui.controller.PurchaseOrderCreateController"
+            styleClass="main-panel">
     <padding>
-        <Insets top="12" right="12" bottom="12" left="12"/>
+        <Insets top="16" right="16" bottom="16" left="16"/>
     </padding>
 
     <top>
-        <VBox spacing="10">
-            <Label text="Create Purchase Order" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-            <HBox spacing="10">
-                <Label text="Supplier:"/>
-                <ComboBox fx:id="supplierCombo" prefWidth="220"/>
-                <Label text="Notes:"/>
-                <TextField fx:id="notesField" prefWidth="220"/>
-            </HBox>
-            <HBox spacing="10">
-                <Label text="Product:"/>
-                <ComboBox fx:id="productCombo" prefWidth="200"/>
-                <Label text="Qty:"/>
-                <TextField fx:id="lineQuantityField" prefWidth="80"/>
-                <Label text="Unit Cost:"/>
-                <TextField fx:id="lineCostField" prefWidth="80"/>
-                <Button text="Add Line" onAction="#handleAddLine"/>
-            </HBox>
+        <VBox spacing="8">
+            <padding>
+                <Insets bottom="12"/>
+            </padding>
+            <Label text="Purchase Orders" styleClass="view-title"/>
+            <Label text="Create new purchase orders using the Builder pattern and manage order lifecycles via the State pattern." styleClass="view-subtitle"/>
         </VBox>
     </top>
 
     <center>
-        <TableView fx:id="linesTable">
-            <columns>
-                <TableColumn fx:id="lineProductColumn" text="Product" prefWidth="220"/>
-                <TableColumn fx:id="lineQuantityColumn" text="Quantity Ordered" prefWidth="140"/>
-                <TableColumn fx:id="lineCostColumn" text="Unit Cost" prefWidth="100"/>
-            </columns>
-        </TableView>
-    </center>
+        <TabPane fx:id="poTabPane" tabClosingPolicy="UNAVAILABLE">
+            <!-- TAB 1: CREATE NEW PO -->
+            <Tab text="Create New Order">
+                <BorderPane>
+                    <padding>
+                        <Insets top="12" right="8" bottom="8" left="8"/>
+                    </padding>
+                    <top>
+                        <VBox spacing="12">
+                            <TitledPane text="Order Header Details" collapsible="false">
+                                <GridPane hgap="12" vgap="10">
+                                    <padding>
+                                        <Insets top="10" right="10" bottom="10" left="10"/>
+                                    </padding>
+                                    <Label text="Supplier *:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="form-label"/>
+                                    <ComboBox fx:id="supplierCombo" prefWidth="250" promptText="Select supplier..." GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-    <bottom>
-        <VBox spacing="8">
-            <padding>
-                <Insets top="10"/>
-            </padding>
-            <Button text="Submit Purchase Order" onAction="#handleSubmit"/>
-            <Label fx:id="statusLabel" textFill="crimson"/>
-        </VBox>
-    </bottom>
+                                    <Label text="Expected Date:" GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="form-label"/>
+                                    <DatePicker fx:id="expectedDatePicker" prefWidth="200" promptText="Expected delivery" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+                                    <Label text="Notes:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="form-label"/>
+                                    <TextField fx:id="notesField" prefWidth="450" promptText="Optional notes or instructions..." GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+                                </GridPane>
+                            </TitledPane>
+
+                            <TitledPane text="Add Order Line Items" collapsible="false">
+                                <HBox spacing="10" alignment="CENTER_LEFT">
+                                    <padding>
+                                        <Insets top="10" right="10" bottom="10" left="10"/>
+                                    </padding>
+                                    <Label text="Product *:" styleClass="form-label"/>
+                                    <ComboBox fx:id="productCombo" prefWidth="220" promptText="Select product..."/>
+
+                                    <Label text="Quantity *:" styleClass="form-label"/>
+                                    <TextField fx:id="lineQuantityField" prefWidth="90" promptText="e.g. 50"/>
+
+                                    <Label text="Unit Cost ($) *:" styleClass="form-label"/>
+                                    <TextField fx:id="lineCostField" prefWidth="90" promptText="e.g. 12.50"/>
+
+                                    <Button text="+ Add Line Item" onAction="#handleAddLine" styleClass="btn-secondary"/>
+                                    <Button text="Remove Selected" onAction="#handleRemoveLine" styleClass="btn-danger-outline"/>
+                                </HBox>
+                            </TitledPane>
+                        </VBox>
+                    </top>
+
+                    <center>
+                        <VBox spacing="6">
+                            <padding>
+                                <Insets top="10" bottom="6"/>
+                            </padding>
+                            <Label text="Pending Line Items in Current Order:" styleClass="section-header"/>
+                            <TableView fx:id="linesTable" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="lineProductColumn" text="Product" prefWidth="280"/>
+                                    <TableColumn fx:id="lineQuantityColumn" text="Quantity Ordered" prefWidth="150"/>
+                                    <TableColumn fx:id="lineCostColumn" text="Unit Cost" prefWidth="130"/>
+                                    <TableColumn fx:id="lineTotalCostColumn" text="Subtotal" prefWidth="140"/>
+                                </columns>
+                                <placeholder>
+                                    <Label text="No line items added yet. Select a product and click 'Add Line Item'."/>
+                                </placeholder>
+                            </TableView>
+                        </VBox>
+                    </center>
+
+                    <bottom>
+                        <VBox spacing="8">
+                            <padding>
+                                <Insets top="10"/>
+                            </padding>
+                            <HBox spacing="12" alignment="CENTER_LEFT">
+                                <Button text="✓ Submit Order as Draft" onAction="#handleSubmitDraft" styleClass="btn-primary"/>
+                                <Button text="🚀 Submit &amp; Send to Supplier" onAction="#handleSubmitAndSend" styleClass="btn-success"/>
+                                <Button text="Clear Form" onAction="#handleClearForm" styleClass="btn-outline"/>
+                                <Label fx:id="statusLabel" styleClass="status-msg"/>
+                            </HBox>
+                        </VBox>
+                    </bottom>
+                </BorderPane>
+            </Tab>
+
+            <!-- TAB 2: MANAGE & TRACK ORDERS -->
+            <Tab text="Order History &amp; Lifecycle">
+                <BorderPane>
+                    <padding>
+                        <Insets top="12" right="8" bottom="8" left="8"/>
+                    </padding>
+                    <center>
+                        <SplitPane dividerPositions="0.55" orientation="HORIZONTAL">
+                            <!-- Left: List of POs -->
+                            <VBox spacing="8">
+                                <padding>
+                                    <Insets right="8"/>
+                                </padding>
+                                <HBox spacing="8" alignment="CENTER_LEFT">
+                                    <Label text="Purchase Orders:" styleClass="section-header"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Button text="↻ Refresh Orders" onAction="#handleRefreshOrders" styleClass="btn-sm"/>
+                                </HBox>
+                                <TableView fx:id="allOrdersTable" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="orderIdCol" text="PO #" prefWidth="60"/>
+                                        <TableColumn fx:id="orderSupplierCol" text="Supplier" prefWidth="150"/>
+                                        <TableColumn fx:id="orderStatusCol" text="Status" prefWidth="130"/>
+                                        <TableColumn fx:id="orderExpectedCol" text="Expected Date" prefWidth="110"/>
+                                        <TableColumn fx:id="orderNotesCol" text="Notes" prefWidth="140"/>
+                                    </columns>
+                                    <placeholder>
+                                        <Label text="No purchase orders found."/>
+                                    </placeholder>
+                                </TableView>
+                            </VBox>
+
+                            <!-- Right: Selected PO Details & Actions -->
+                            <VBox spacing="10">
+                                <padding>
+                                    <Insets left="8"/>
+                                </padding>
+                                <Label text="Order Details &amp; Actions:" styleClass="section-header"/>
+                                <VBox spacing="6" styleClass="card-panel">
+                                    <padding>
+                                        <Insets top="10" right="10" bottom="10" left="10"/>
+                                    </padding>
+                                    <Label fx:id="selectedOrderHeaderLabel" text="Select a purchase order on the left to view details." style="-fx-font-weight: bold;"/>
+                                    <HBox spacing="10">
+                                        <Button fx:id="sendOrderBtn" text="🚀 Send to Supplier" onAction="#handleSendSelected" styleClass="btn-primary" disable="true"/>
+                                        <Button fx:id="cancelOrderBtn" text="✖ Cancel Order" onAction="#handleCancelSelected" styleClass="btn-danger" disable="true"/>
+                                    </HBox>
+                                    <Label fx:id="manageStatusLabel" styleClass="status-msg"/>
+                                </VBox>
+
+                                <Label text="Line Items for Selected Order:" styleClass="section-header"/>
+                                <TableView fx:id="selectedOrderLinesTable" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="detailProductCol" text="Product" prefWidth="160"/>
+                                        <TableColumn fx:id="detailOrderedCol" text="Ordered" prefWidth="80"/>
+                                        <TableColumn fx:id="detailReceivedCol" text="Received" prefWidth="80"/>
+                                        <TableColumn fx:id="detailOutstandingCol" text="Outstanding" prefWidth="90"/>
+                                        <TableColumn fx:id="detailCostCol" text="Unit Cost" prefWidth="80"/>
+                                    </columns>
+                                    <placeholder>
+                                        <Label text="No line items to display."/>
+                                    </placeholder>
+                                </TableView>
+                            </VBox>
+                        </SplitPane>
+                    </center>
+                </BorderPane>
+            </Tab>
+        </TabPane>
+    </center>
 </BorderPane>

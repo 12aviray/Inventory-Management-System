@@ -73,7 +73,7 @@ public class PurchaseOrderService {
                         purchaseOrderDao.updateLineReceivedQuantity(line.getPoLineId(), updatedReceived, conn);
 
                         StockCommand command = new ReceiveStockCommand(
-                                line.getProductId(), warehouseId, poId, newlyReceived);
+                                line.getProductId(), warehouseId, poId, newlyReceived, line.getUnitCost());
                         command.execute(conn);
 
                         if (updatedReceived < line.getQuantityOrdered()) {

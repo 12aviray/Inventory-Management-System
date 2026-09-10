@@ -10,7 +10,7 @@ import java.util.List;
 public class StockMovementDao {
 
     public void insert(StockMovement m, Connection conn) throws SQLException {
-        String sql = "INSERT INTO stock_movement (product_id, warehouse_id, po_id, movement_type, quantity, reason) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO stock_movement (product_id, warehouse_id, po_id, movement_type, quantity, unit_price, reason) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, m.getProductId());
             ps.setInt(2, m.getWarehouseId());
@@ -21,7 +21,8 @@ public class StockMovementDao {
             }
             ps.setString(4, m.getMovementType());
             ps.setInt(5, m.getQuantity());
-            ps.setString(6, m.getReason());
+            ps.setDouble(6, m.getUnitPrice());
+            ps.setString(7, m.getReason());
             ps.executeUpdate();
         }
     }
@@ -58,6 +59,7 @@ public class StockMovementDao {
                     m.setPoId(rs.wasNull() ? null : po);
                     m.setMovementType(rs.getString("movement_type"));
                     m.setQuantity(rs.getInt("quantity"));
+                    m.setUnitPrice(rs.getDouble("unit_price"));
                     m.setReason(rs.getString("reason"));
                     m.setCreatedAt(rs.getLong("created_at"));
                     m.setProductName(rs.getString("product_name"));

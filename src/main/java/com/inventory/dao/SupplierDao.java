@@ -6,6 +6,7 @@ import com.inventory.util.DatabaseManager;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SupplierDao {
 
@@ -16,13 +17,28 @@ public class SupplierDao {
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                results.add(new Supplier(rs.getInt("supplier_id"), rs.getString("name"),
-                        rs.getString("contact_email"), rs.getString("phone")));
+                results.add(mapRow(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to fetch suppliers", e);
         }
         return results;
+    }
+
+    public Optional<Supplier> findById(int supplierId) {
+        String sql = "SELECT * FROM supplier WHERE supplier_id = ?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, supplierId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(mapRow(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to fetch supplier " + supplierId, e);
+        }
+        return Optional.empty();
     }
 
     public Supplier insert(Supplier s) {
@@ -40,5 +56,35 @@ public class SupplierDao {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to insert supplier", e);
         }
+    }
+
+    public void update(Supplier s) {
+        String sql = "UPDATE supplier SET name=?, contact_email=?, phone=? WHERE supplier_id=?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, s.getName());
+            ps.setString(2, s.getContactEmail());
+            ps.setString(3, s.getPhone());
+            ps.setInt(4, s.getSupplierId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to update supplier " + s.getSupplierId(), e);
+        }
+    }
+
+    public void delete(int supplierId) {
+        String sql = "DELETE FROM supplier WHERE supplier_id=?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, supplierId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to delete supplier " + supplierId, e);
+        }
+    }
+
+    private Supplier mapRow(ResultSet rs) throws SQLException {
+        return new Supplier(rs.getInt("supplier_id"), rs.getString("name"),
+                rs.getString("contact_email"), rs.getString("phone"));
     }
 }

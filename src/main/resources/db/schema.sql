@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS stock_movement (
     movement_type TEXT NOT NULL
         CHECK (movement_type IN ('IN','OUT','TRANSFER_OUT','TRANSFER_IN','ADJUSTMENT')),
     quantity INTEGER NOT NULL CHECK (quantity > 0),
+    unit_price REAL NOT NULL DEFAULT 0 CHECK (unit_price >= 0),
     reason TEXT,
     created_at INTEGER NOT NULL DEFAULT (strftime('%s','now'))
 );

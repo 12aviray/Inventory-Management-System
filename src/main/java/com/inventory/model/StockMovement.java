@@ -9,6 +9,7 @@ public class StockMovement {
     private Integer poId; // nullable
     private String movementType; // IN, OUT, TRANSFER_OUT, TRANSFER_IN, ADJUSTMENT
     private int quantity;
+    private double unitPrice;
     private String reason;
     private long createdAt;
 
@@ -16,11 +17,16 @@ public class StockMovement {
     }
 
     public StockMovement(int productId, int warehouseId, Integer poId, String movementType, int quantity, String reason) {
+        this(productId, warehouseId, poId, movementType, quantity, 0.0, reason);
+    }
+
+    public StockMovement(int productId, int warehouseId, Integer poId, String movementType, int quantity, double unitPrice, String reason) {
         this.productId = productId;
         this.warehouseId = warehouseId;
         this.poId = poId;
         this.movementType = movementType;
         this.quantity = quantity;
+        this.unitPrice = unitPrice;
         this.reason = reason;
     }
 
@@ -47,6 +53,9 @@ public class StockMovement {
 
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
+
+    public double getUnitPrice() { return unitPrice; }
+    public void setUnitPrice(double unitPrice) { this.unitPrice = unitPrice; }
 
     public String getReason() { return reason; }
     public void setReason(String reason) { this.reason = reason; }

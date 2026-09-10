@@ -6,26 +6,57 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.inventory.ui.controller.MainLayoutController">
+            fx:controller="com.inventory.ui.controller.MainLayoutController"
+            styleClass="root-pane">
     <left>
-        <VBox spacing="6" style="-fx-background-color: #2b2b2b;" prefWidth="170">
+        <VBox spacing="8" styleClass="sidebar" prefWidth="220">
             <padding>
-                <Insets top="16" right="10" bottom="16" left="10"/>
+                <Insets top="20" right="14" bottom="16" left="14"/>
             </padding>
-            <Label text="Inventory System" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;"/>
-            <Separator/>
-            <Button text="Dashboard" onAction="#showDashboard" maxWidth="Infinity"/>
-            <Button text="Products" onAction="#showProducts" maxWidth="Infinity"/>
-            <Button text="Warehouse Stock" onAction="#showWarehouseStock" maxWidth="Infinity"/>
-            <Button text="Create Purchase Order" onAction="#showPurchaseOrderCreate" maxWidth="Infinity"/>
-            <Button text="Receive Shipment" onAction="#showReceiveShipment" maxWidth="Infinity"/>
-            <Button text="Transfer Stock" onAction="#showTransfer" maxWidth="Infinity"/>
-            <Button text="Reports" onAction="#showReports" maxWidth="Infinity"/>
+
+            <!-- Brand header -->
+            <VBox spacing="4">
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <Label text="📦" style="-fx-font-size: 22px;"/>
+                    <VBox spacing="1">
+                        <Label text="INVENTORY" styleClass="brand-title"/>
+                        <Label text="PRO ENTERPRISE" styleClass="brand-subtitle"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <Separator styleClass="sidebar-separator"/>
+
+            <Label text="NAVIGATION" styleClass="sidebar-section-title"/>
+
+            <!-- Navigation Buttons -->
+            <Button fx:id="btnDashboard" text="📊   Dashboard" onAction="#showDashboard" maxWidth="Infinity" styleClass="nav-btn"/>
+            <Button fx:id="btnProducts" text="🏷   Products" onAction="#showProducts" maxWidth="Infinity" styleClass="nav-btn"/>
+            <Button fx:id="btnStock" text="🏢   Warehouse Stock" onAction="#showWarehouseStock" maxWidth="Infinity" styleClass="nav-btn"/>
+            <Button fx:id="btnPurchaseOrders" text="📝   Purchase Orders" onAction="#showPurchaseOrderCreate" maxWidth="Infinity" styleClass="nav-btn"/>
+            <Button fx:id="btnReceive" text="📥   Receive Shipment" onAction="#showReceiveShipment" maxWidth="Infinity" styleClass="nav-btn"/>
+            <Button fx:id="btnSales" text="🛒   Sales / Sell Items" onAction="#showSales" maxWidth="Infinity" styleClass="nav-btn"/>
+            <Button fx:id="btnTransfer" text="⇄   Stock Transfer" onAction="#showTransfer" maxWidth="Infinity" styleClass="nav-btn"/>
+            <Button fx:id="btnReports" text="📈   Reports &amp; Audit" onAction="#showReports" maxWidth="Infinity" styleClass="nav-btn"/>
+            <Button fx:id="btnSettings" text="⚙   Settings" onAction="#showSettings" maxWidth="Infinity" styleClass="nav-btn"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Separator styleClass="sidebar-separator"/>
+
+            <!-- System Info Footer -->
+            <VBox spacing="4" styleClass="system-status-box">
+                <HBox alignment="CENTER_LEFT" spacing="6">
+                    <Label text="●" style="-fx-text-fill: #10b981; -fx-font-size: 10px;"/>
+                    <Label text="SQLite Database: Connected" styleClass="system-status-text"/>
+                </HBox>
+                <Label text="Design Patterns v1.0" styleClass="system-version-text"/>
+            </VBox>
         </VBox>
     </left>
 
     <center>
-        <StackPane fx:id="contentArea">
+        <StackPane fx:id="contentArea" styleClass="content-area">
             <padding>
                 <Insets top="0" right="0" bottom="0" left="0"/>
             </padding>

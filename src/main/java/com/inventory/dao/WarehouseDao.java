@@ -6,6 +6,7 @@ import com.inventory.util.DatabaseManager;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class WarehouseDao {
 
@@ -16,12 +17,28 @@ public class WarehouseDao {
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                results.add(new Warehouse(rs.getInt("warehouse_id"), rs.getString("name"), rs.getString("location")));
+                results.add(mapRow(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to fetch warehouses", e);
         }
         return results;
+    }
+
+    public Optional<Warehouse> findById(int warehouseId) {
+        String sql = "SELECT * FROM warehouse WHERE warehouse_id = ?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, warehouseId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(mapRow(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to fetch warehouse " + warehouseId, e);
+        }
+        return Optional.empty();
     }
 
     public Warehouse insert(Warehouse w) {
@@ -38,5 +55,33 @@ public class WarehouseDao {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to insert warehouse", e);
         }
+    }
+
+    public void update(Warehouse w) {
+        String sql = "UPDATE warehouse SET name=?, location=? WHERE warehouse_id=?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, w.getName());
+            ps.setString(2, w.getLocation());
+            ps.setInt(3, w.getWarehouseId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to update warehouse " + w.getWarehouseId(), e);
+        }
+    }
+
+    public void delete(int warehouseId) {
+        String sql = "DELETE FROM warehouse WHERE warehouse_id=?";
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, warehouseId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to delete warehouse " + warehouseId, e);
+        }
+    }
+
+    private Warehouse mapRow(ResultSet rs) throws SQLException {
+        return new Warehouse(rs.getInt("warehouse_id"), rs.getString("name"), rs.getString("location"));
     }
 }

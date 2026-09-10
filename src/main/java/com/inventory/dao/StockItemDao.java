@@ -41,9 +41,16 @@ public class StockItemDao {
     }
 
     public Optional<StockItem> find(int productId, int warehouseId) {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            return find(productId, warehouseId, conn);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to fetch stock item", e);
+        }
+    }
+
+    public Optional<StockItem> find(int productId, int warehouseId, Connection conn) throws SQLException {
         String sql = "SELECT * FROM stock_item WHERE product_id=? AND warehouse_id=?";
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, productId);
             ps.setInt(2, warehouseId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -52,15 +59,13 @@ public class StockItemDao {
                             warehouseId, rs.getInt("quantity")));
                 }
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("Failed to fetch stock item", e);
         }
         return Optional.empty();
     }
 
     /** Upserts the quantity for a product/warehouse pair (used by movement processing). */
     public void adjustQuantity(int productId, int warehouseId, int delta, Connection conn) throws SQLException {
-        Optional<StockItem> existing = find(productId, warehouseId);
+        Optional<StockItem> existing = find(productId, warehouseId, conn);
         if (existing.isPresent()) {
             String sql = "UPDATE stock_item SET quantity = quantity + ?, updated_at = strftime('%s','now') WHERE product_id=? AND warehouse_id=?";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {

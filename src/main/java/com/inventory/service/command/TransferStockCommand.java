@@ -29,7 +29,7 @@ public class TransferStockCommand implements StockCommand {
 
     @Override
     public void execute(Connection conn) throws SQLException {
-        Optional<StockItem> source = stockItemDao.find(productId, fromWarehouseId);
+        Optional<StockItem> source = stockItemDao.find(productId, fromWarehouseId, conn);
         int available = source.map(StockItem::getQuantity).orElse(0);
         if (available < quantity) {
             throw new IllegalStateException(

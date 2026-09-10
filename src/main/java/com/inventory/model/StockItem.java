@@ -14,6 +14,12 @@ public class StockItem {
     public StockItem() {
     }
 
+    public StockItem(int productId, int warehouseId, int quantity) {
+        this.productId = productId;
+        this.warehouseId = warehouseId;
+        this.quantity = quantity;
+    }
+
     public StockItem(int stockItemId, int productId, int warehouseId, int quantity) {
         this.stockItemId = stockItemId;
         this.productId = productId;

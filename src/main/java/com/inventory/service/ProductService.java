@@ -19,6 +19,10 @@ public class ProductService {
         return productDao.findAll();
     }
 
+    public java.util.Optional<Product> findById(int productId) {
+        return productDao.findById(productId);
+    }
+
     public Product create(Product product) {
         validate(product);
         return productDao.insert(product);

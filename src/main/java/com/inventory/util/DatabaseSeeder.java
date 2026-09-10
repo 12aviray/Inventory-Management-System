@@ -56,6 +56,38 @@ public final class DatabaseSeeder {
                     (5, 2, 4)
                     """);
             }
+
+            if (isEmpty(st, "purchase_order")) {
+                st.executeUpdate("""
+                    INSERT INTO purchase_order (po_id, supplier_id, status, expected_date, notes) VALUES
+                    (1, 1, 'SENT', strftime('%s','now', '+5 days'), 'Urgent restocking for Q3 electronics'),
+                    (2, 2, 'PARTIALLY_RECEIVED', strftime('%s','now', '+2 days'), 'Office chair & desk lamp replenishment')
+                    """);
+
+                st.executeUpdate("""
+                    INSERT INTO purchase_order_line (po_line_id, po_id, product_id, quantity_ordered, quantity_received, unit_cost) VALUES
+                    (1, 1, 1, 50, 0, 12.50),
+                    (2, 1, 2, 100, 0, 4.25),
+                    (3, 2, 3, 10, 5, 89.99),
+                    (4, 2, 5, 20, 10, 24.75)
+                    """);
+            }
+
+            if (isEmpty(st, "stock_movement")) {
+                st.executeUpdate("""
+                    INSERT INTO stock_movement (product_id, warehouse_id, po_id, movement_type, quantity, unit_price, reason) VALUES
+                    (1, 1, NULL, 'IN', 20, 12.50, 'Initial Inventory Stock In'),
+                    (2, 1, NULL, 'IN', 100, 4.25, 'Initial Inventory Stock In'),
+                    (3, 1, 2, 'IN', 5, 89.99, 'Received against PO #2'),
+                    (4, 2, NULL, 'IN', 250, 2.10, 'Initial Inventory Stock In'),
+                    (5, 2, 2, 'IN', 10, 24.75, 'Received against PO #2'),
+                    (1, 1, NULL, 'OUT', 5, 19.99, 'Sold 5 units to Apex Enterprises @ $19.99/unit'),
+                    (2, 1, NULL, 'OUT', 20, 7.50, 'Sold 20 units to Byte Solutions @ $7.50/unit'),
+                    (3, 1, NULL, 'OUT', 2, 139.99, 'Sold 2 units to Modern Tech Hub @ $139.99/unit'),
+                    (4, 2, NULL, 'OUT', 50, 4.50, 'Sold 50 units to City Academy @ $4.50/unit'),
+                    (5, 2, NULL, 'OUT', 6, 39.99, 'Sold 6 units to Creative Studios @ $39.99/unit')
+                    """);
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to seed database", e);
         }

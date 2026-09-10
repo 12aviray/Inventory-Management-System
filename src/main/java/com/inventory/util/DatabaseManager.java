@@ -44,6 +44,13 @@ public final class DatabaseManager {
                     st.execute(sql);
                 }
             }
+
+            // Ensure unit_price column exists on existing databases
+            try {
+                st.execute("ALTER TABLE stock_movement ADD COLUMN unit_price REAL NOT NULL DEFAULT 0;");
+            } catch (SQLException ignored) {
+                // Column already exists
+            }
         } catch (SQLException | IOException e) {
             throw new RuntimeException("Failed to initialize database schema", e);
         }

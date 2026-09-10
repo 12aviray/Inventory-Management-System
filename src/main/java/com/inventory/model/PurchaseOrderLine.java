@@ -42,4 +42,8 @@ public class PurchaseOrderLine {
     public int getOutstandingQuantity() {
         return quantityOrdered - quantityReceived;
     }
+
+    public double getSubtotal() {
+        return quantityOrdered * unitCost;
+    }
 }

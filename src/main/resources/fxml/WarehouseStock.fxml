@@ -6,33 +6,47 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.inventory.ui.controller.WarehouseStockController">
+            fx:controller="com.inventory.ui.controller.WarehouseStockController"
+            styleClass="main-panel">
     <padding>
-        <Insets top="12" right="12" bottom="12" left="12"/>
+        <Insets top="16" right="16" bottom="16" left="16"/>
     </padding>
 
     <top>
-        <Label text="Warehouse Stock" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+        <VBox spacing="10">
+            <padding>
+                <Insets bottom="12"/>
+            </padding>
+            <Label text="Warehouse Stock Levels" styleClass="view-title"/>
+            <Label text="Real-time multi-warehouse inventory quantities and low-stock threshold status." styleClass="view-subtitle"/>
+
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <Label text="Filter by Warehouse:" styleClass="form-label"/>
+                <ComboBox fx:id="warehouseFilterCombo" prefWidth="200" promptText="All Warehouses"/>
+
+                <Label text="Search Product:" styleClass="form-label"/>
+                <TextField fx:id="searchField" prefWidth="240" promptText="Filter by product name..."/>
+
+                <Button text="Clear Filters" onAction="#handleClearFilters" styleClass="btn-sm"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="stockSummaryLabel" styleClass="badge-info"/>
+                <Button text="↻ Refresh Stock" onAction="#handleRefresh" styleClass="btn-primary"/>
+            </HBox>
+        </VBox>
     </top>
 
     <center>
         <TableView fx:id="stockTable">
             <columns>
-                <TableColumn fx:id="warehouseColumn" text="Warehouse" prefWidth="150"/>
-                <TableColumn fx:id="productColumn" text="Product" prefWidth="220"/>
-                <TableColumn fx:id="quantityColumn" text="Quantity" prefWidth="100"/>
-                <TableColumn fx:id="thresholdColumn" text="Reorder Threshold" prefWidth="140"/>
-                <TableColumn fx:id="statusColumn" text="Status" prefWidth="120"/>
+                <TableColumn fx:id="warehouseColumn" text="Warehouse Location" prefWidth="180"/>
+                <TableColumn fx:id="productColumn" text="Product Name" prefWidth="280"/>
+                <TableColumn fx:id="quantityColumn" text="On-Hand Quantity" prefWidth="140"/>
+                <TableColumn fx:id="thresholdColumn" text="Reorder Threshold" prefWidth="150"/>
+                <TableColumn fx:id="statusColumn" text="Stock Status" prefWidth="140"/>
             </columns>
+            <placeholder>
+                <Label text="No stock records found."/>
+            </placeholder>
         </TableView>
     </center>
-
-    <bottom>
-        <HBox spacing="8">
-            <padding>
-                <Insets top="10"/>
-            </padding>
-            <Button text="Refresh" onAction="#handleRefresh"/>
-        </HBox>
-    </bottom>
 </BorderPane>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.inventory.ui.controller.SettingsController"
+            styleClass="main-panel">
+    <padding>
+        <Insets top="16" right="16" bottom="16" left="16"/>
+    </padding>
+
+    <top>
+        <VBox spacing="4">
+            <padding>
+                <Insets bottom="12"/>
+            </padding>
+            <Label text="Settings" styleClass="view-title"/>
+            <Label text="Manage warehouses and suppliers — the reference data used across purchase orders, transfers, and stock." styleClass="view-subtitle"/>
+        </VBox>
+    </top>
+
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Warehouses">
+                    <BorderPane>
+                        <padding>
+                            <Insets top="12"/>
+                        </padding>
+                        <center>
+                            <TableView fx:id="warehouseTable">
+                                <columns>
+                                    <TableColumn fx:id="warehouseNameColumn" text="Name" prefWidth="220"/>
+                                    <TableColumn fx:id="warehouseLocationColumn" text="Location" prefWidth="300"/>
+                                </columns>
+                                <placeholder>
+                                    <Label text="No warehouses found."/>
+                                </placeholder>
+                            </TableView>
+                        </center>
+                        <bottom>
+                            <VBox spacing="10">
+                                <padding>
+                                    <Insets top="12"/>
+                                </padding>
+                                <TitledPane text="Warehouse Details (Add / Edit)" collapsible="false">
+                                    <VBox spacing="10">
+                                        <padding>
+                                            <Insets top="10" right="10" bottom="10" left="10"/>
+                                        </padding>
+                                        <GridPane hgap="12" vgap="10">
+                                            <Label text="Name *:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="form-label"/>
+                                            <TextField fx:id="warehouseNameField" promptText="e.g. Main Warehouse" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="220"/>
+
+                                            <Label text="Location:" GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="form-label"/>
+                                            <TextField fx:id="warehouseLocationField" promptText="e.g. Dhaka, Bangladesh" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="280"/>
+                                        </GridPane>
+
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Button text="+ Add Warehouse" onAction="#handleWarehouseAdd" styleClass="btn-primary"/>
+                                            <Button text="✎ Update Selected" onAction="#handleWarehouseUpdate" styleClass="btn-secondary"/>
+                                            <Button text="✖ Delete Selected" onAction="#handleWarehouseDelete" styleClass="btn-danger"/>
+                                            <Button text="Clear Form / New" onAction="#handleWarehouseClearForm" styleClass="btn-outline"/>
+                                            <Button text="↻ Refresh" onAction="#handleWarehouseRefresh" styleClass="btn-sm"/>
+                                            <Label fx:id="warehouseStatusLabel" styleClass="status-msg"/>
+                                        </HBox>
+                                    </VBox>
+                                </TitledPane>
+                            </VBox>
+                        </bottom>
+                    </BorderPane>
+                </Tab>
+
+                <Tab text="Suppliers">
+                    <BorderPane>
+                        <padding>
+                            <Insets top="12"/>
+                        </padding>
+                        <center>
+                            <TableView fx:id="supplierTable">
+                                <columns>
+                                    <TableColumn fx:id="supplierNameColumn" text="Name" prefWidth="220"/>
+                                    <TableColumn fx:id="supplierEmailColumn" text="Contact Email" prefWidth="240"/>
+                                    <TableColumn fx:id="supplierPhoneColumn" text="Phone" prefWidth="160"/>
+                                </columns>
+                                <placeholder>
+                                    <Label text="No suppliers found."/>
+                                </placeholder>
+                            </TableView>
+                        </center>
+                        <bottom>
+                            <VBox spacing="10">
+                                <padding>
+                                    <Insets top="12"/>
+                                </padding>
+                                <TitledPane text="Supplier Details (Add / Edit)" collapsible="false">
+                                    <VBox spacing="10">
+                                        <padding>
+                                            <Insets top="10" right="10" bottom="10" left="10"/>
+                                        </padding>
+                                        <GridPane hgap="12" vgap="10">
+                                            <Label text="Name *:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="form-label"/>
+                                            <TextField fx:id="supplierNameField" promptText="e.g. Acme Distributors" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="220"/>
+
+                                            <Label text="Contact Email:" GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="form-label"/>
+                                            <TextField fx:id="supplierEmailField" promptText="e.g. sales@acme.com" GridPane.rowIndex="0" GridPane.columnIndex="3" prefWidth="220"/>
+
+                                            <Label text="Phone:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="form-label"/>
+                                            <TextField fx:id="supplierPhoneField" promptText="e.g. +880 1XXXXXXXXX" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="220"/>
+                                        </GridPane>
+
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <Button text="+ Add Supplier" onAction="#handleSupplierAdd" styleClass="btn-primary"/>
+                                            <Button text="✎ Update Selected" onAction="#handleSupplierUpdate" styleClass="btn-secondary"/>
+                                            <Button text="✖ Delete Selected" onAction="#handleSupplierDelete" styleClass="btn-danger"/>
+                                            <Button text="Clear Form / New" onAction="#handleSupplierClearForm" styleClass="btn-outline"/>
+                                            <Button text="↻ Refresh" onAction="#handleSupplierRefresh" styleClass="btn-sm"/>
+                                            <Label fx:id="supplierStatusLabel" styleClass="status-msg"/>
+                                        </HBox>
+                                    </VBox>
+                                </TitledPane>
+                            </VBox>
+                        </bottom>
+                    </BorderPane>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>
