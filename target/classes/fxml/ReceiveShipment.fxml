@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.inventory.ui.controller.ReceiveShipmentController"
+            styleClass="main-panel">
+    <padding>
+        <Insets top="16" right="16" bottom="16" left="16"/>
+    </padding>
+
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets bottom="12"/>
+            </padding>
+            <Label text="Receive Shipment" styleClass="view-title"/>
+            <Label text="Record incoming stock from suppliers against approved Purchase Orders (SENT or PARTIALLY_RECEIVED)." styleClass="view-subtitle"/>
+
+            <TitledPane text="Shipment Selection" collapsible="false">
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <Label text="Purchase Order *:" styleClass="form-label"/>
+                    <ComboBox fx:id="poCombo" prefWidth="300" promptText="Select order to receive..."/>
+
+                    <Label text="Destination Warehouse *:" styleClass="form-label"/>
+                    <ComboBox fx:id="warehouseCombo" prefWidth="200" promptText="Select warehouse..."/>
+
+                    <Button text="↻ Refresh Orders" onAction="#handleRefreshPOs" styleClass="btn-sm"/>
+                </HBox>
+            </TitledPane>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="8">
+            <padding>
+                <Insets top="6" bottom="6"/>
+            </padding>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Shipment Line Items:" styleClass="section-header"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="⚡ Fill All Outstanding" onAction="#handleFillAllOutstanding" styleClass="btn-secondary"/>
+                <Button text="Clear Quantities" onAction="#handleClearQuantities" styleClass="btn-outline"/>
+            </HBox>
+
+            <TableView fx:id="linesTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="productColumn" text="Product Name" prefWidth="240"/>
+                    <TableColumn fx:id="orderedColumn" text="Qty Ordered" prefWidth="120"/>
+                    <TableColumn fx:id="receivedColumn" text="Already Received" prefWidth="140"/>
+                    <TableColumn fx:id="outstandingColumn" text="Outstanding" prefWidth="120"/>
+                    <TableColumn fx:id="receiveNowColumn" text="Receive Now (Editable)" prefWidth="160"/>
+                </columns>
+                <placeholder>
+                    <Label text="Select a purchase order above to view line items available for receipt."/>
+                </placeholder>
+            </TableView>
+        </VBox>
+    </center>
+
+    <bottom>
+        <VBox spacing="8">
+            <padding>
+                <Insets top="10"/>
+            </padding>
+            <HBox spacing="12" alignment="CENTER_LEFT">
+                <Button text="✓ Confirm &amp; Record Receipt" onAction="#handleConfirm" styleClass="btn-primary"/>
+                <Label fx:id="statusLabel" styleClass="status-msg"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.inventory.ui.controller.DashboardController"
+            styleClass="main-panel">
+    <padding>
+        <Insets top="16" right="16" bottom="16" left="16"/>
+    </padding>
+
+    <top>
+        <VBox spacing="12">
+            <padding>
+                <Insets bottom="10"/>
+            </padding>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <VBox spacing="3" HBox.hgrow="ALWAYS">
+                    <Label text="Executive Inventory &amp; Financial Dashboard" styleClass="view-title"/>
+                    <Label text="Real-time revenue, gross profit margins, inventory valuation, and automated reorder alerts." styleClass="view-subtitle"/>
+                </VBox>
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Label text="Restocking Strategy:" styleClass="form-label"/>
+                    <ComboBox fx:id="dashboardStrategyCombo" prefWidth="250"/>
+                    <Button text="↻ Refresh" onAction="#handleRefresh" styleClass="btn-primary"/>
+                </HBox>
+            </HBox>
+
+            <!-- Row 1: Financial Intelligence KPIs -->
+            <HBox spacing="12">
+                <VBox styleClass="kpi-card, kpi-green" HBox.hgrow="ALWAYS" spacing="3">
+                    <Label text="💰 TOTAL REVENUE" styleClass="kpi-title"/>
+                    <Label fx:id="totalRevenueLabel" text="\$0.00" styleClass="kpi-value"/>
+                    <Label text="Gross customer sales" styleClass="kpi-sub"/>
+                </VBox>
+                <VBox styleClass="kpi-card, kpi-blue" HBox.hgrow="ALWAYS" spacing="3">
+                    <Label text="📈 GROSS PROFIT" styleClass="kpi-title"/>
+                    <Label fx:id="grossProfitLabel" text="\$0.00" styleClass="kpi-value"/>
+                    <Label fx:id="profitMarginLabel" text="Margin: 0.0%" styleClass="kpi-sub" style="-fx-font-weight: bold; -fx-text-fill: #1d4ed8;"/>
+                </VBox>
+                <VBox styleClass="kpi-card, kpi-amber" HBox.hgrow="ALWAYS" spacing="3">
+                    <Label text="📦 INVENTORY VALUATION" styleClass="kpi-title"/>
+                    <Label fx:id="inventoryValueLabel" text="\$0.00" styleClass="kpi-value"/>
+                    <Label text="Current asset cost on hand" styleClass="kpi-sub"/>
+                </VBox>
+                <VBox styleClass="kpi-card, kpi-blue" HBox.hgrow="ALWAYS" spacing="3">
+                    <Label text="🛒 UNITS SOLD" styleClass="kpi-title"/>
+                    <Label fx:id="totalUnitsSoldLabel" text="0 units" styleClass="kpi-value"/>
+                    <Label text="Total dispatched" styleClass="kpi-sub"/>
+                </VBox>
+            </HBox>
+
+            <!-- Row 2: Operational Health KPIs -->
+            <HBox spacing="12">
+                <VBox styleClass="kpi-card, kpi-blue" HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="TOTAL PRODUCTS" styleClass="kpi-title"/>
+                    <Label fx:id="totalProductsLabel" text="0" style="-fx-font-size: 18px; -fx-font-weight: 800; -fx-text-fill: #1e40af;"/>
+                    <Label text="Catalog items" styleClass="kpi-sub"/>
+                </VBox>
+                <VBox styleClass="kpi-card, kpi-red" HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="LOW STOCK ALERTS" styleClass="kpi-title"/>
+                    <Label fx:id="lowStockCountLabel" text="0" style="-fx-font-size: 18px; -fx-font-weight: 800; -fx-text-fill: #dc2626;"/>
+                    <Label text="Needing reorder" styleClass="kpi-sub"/>
+                </VBox>
+                <VBox styleClass="kpi-card, kpi-amber" HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="PENDING PURCHASE ORDERS" styleClass="kpi-title"/>
+                    <Label fx:id="pendingOrdersLabel" text="0" style="-fx-font-size: 18px; -fx-font-weight: 800; -fx-text-fill: #d97706;"/>
+                    <Label text="Draft or Sent" styleClass="kpi-sub"/>
+                </VBox>
+                <VBox styleClass="kpi-card, kpi-green" HBox.hgrow="ALWAYS" spacing="2">
+                    <Label text="TOTAL STOCK UNITS" styleClass="kpi-title"/>
+                    <Label fx:id="totalUnitsLabel" text="0" style="-fx-font-size: 18px; -fx-font-weight: 800; -fx-text-fill: #16a34a;"/>
+                    <Label text="All warehouses" styleClass="kpi-sub"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="8">
+            <padding>
+                <Insets top="6"/>
+            </padding>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Priority Restocking Recommendations:" styleClass="section-header"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="activeStrategyBadge" styleClass="badge-info"/>
+            </HBox>
+
+            <TableView fx:id="lowStockTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="productColumn" text="Product Name" prefWidth="250"/>
+                    <TableColumn fx:id="warehouseColumn" text="Warehouse Location" prefWidth="180"/>
+                    <TableColumn fx:id="quantityColumn" text="Current Quantity" prefWidth="130"/>
+                    <TableColumn fx:id="thresholdColumn" text="Threshold / Target" prefWidth="140"/>
+                    <TableColumn fx:id="suggestedColumn" text="Suggested Order Qty" prefWidth="160"/>
+                </columns>
+                <placeholder>
+                    <Label text="All inventory levels are healthy! No restock orders currently required."/>
+                </placeholder>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>
