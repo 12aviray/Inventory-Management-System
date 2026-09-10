@@ -5,7 +5,7 @@ final project. See `docs/` for the scope document, ER diagram, and design
 pattern justifications.
 
 ## Prerequisites
-- JDK 17 or later
+- JDK 24 (or JDK 17+)
 - Maven 3.8+
 - (Internet access on first build, to download JavaFX/SQLite/JUnit dependencies)
 
@@ -42,7 +42,7 @@ src/main/resources/
   fxml/                  screen layouts
   db/schema.sql          DDL
 src/test/java/           JUnit 5 tests for business logic
-docs/                    scope, ER diagram, design pattern justifications
+docs/                    scope, ER diagram, design pattern justifications, class diagrams
 ```
 
 ## Git workflow for this project
